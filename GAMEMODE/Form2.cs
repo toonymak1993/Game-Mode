@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -316,11 +319,59 @@ namespace GAMEMODE
             // Verwenden  der ausgewählte Farbe in der Anwendung
             SaveSettings("wallpaper_link", textbox_custom_wallpaper.Text);
         }
-        #endregion Buttons
+        
 
         private void butto_restart_app_Click(object sender, EventArgs e)
         {
             Application.Restart();
         }
+
+        private void button_searchupdates_Click(object sender, EventArgs e)
+        {
+            // Ermitteln der aktuellen Version Ihrer Anwendung
+            Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+            // URL zur Textdatei auf GitHub
+            string githubVersionUrl = "https://raw.githubusercontent.com/toonymak1993/Game_Mode/master/published/version.txt";
+            // URL zum Herunterladen der neuen Setup-Datei
+            string githubSetupUrl = "https://github.com/toonymak1993/Game_Mode/raw/master/published/setup.exe";
+
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    // Herunterladen des Inhalts der Textdatei von GitHub
+                    string githubVersionString = client.DownloadString(githubVersionUrl);
+
+                    // Konvertieren der GitHub-Version in ein Version-Objekt
+                    Version githubVersion = new Version(githubVersionString);
+
+                    // Vergleichen der Versionen
+                    int comparisonResult = currentVersion.CompareTo(githubVersion);
+
+                    if (comparisonResult < 0)
+                    {
+                        // Herunterladen der neuen Setup-Datei in einen temporären Ordner
+                        string tempFolderPath = Path.Combine(Path.GetTempPath(), "UpdateFolder");
+                        Directory.CreateDirectory(tempFolderPath);
+                        string tempSetupPath = Path.Combine(tempFolderPath, "setup.exe");
+                        client.DownloadFile(githubSetupUrl, tempSetupPath);
+
+                        // Ausführen der neuen Setup-Datei
+                        Process.Start(tempSetupPath);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sie haben bereits die neueste Version.", "Keine Aktualisierung erforderlich", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Fehler beim Herunterladen und Vergleichen der Versionen: " + ex.Message);
+            }
+        }
+
+        #endregion Buttons
     }
 }

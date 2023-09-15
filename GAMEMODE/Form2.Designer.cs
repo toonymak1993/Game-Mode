@@ -81,7 +81,7 @@
             panel_main = new Guna.UI2.WinForms.Guna2Panel();
             panel_info = new Panel();
             guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            button_searchupdates = new Guna.UI2.WinForms.Guna2Button();
             guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             button_to_github = new Guna.UI2.WinForms.Guna2Button();
@@ -197,7 +197,7 @@
             // panel_info
             // 
             panel_info.Controls.Add(guna2HtmlLabel5);
-            panel_info.Controls.Add(guna2Button1);
+            panel_info.Controls.Add(button_searchupdates);
             panel_info.Controls.Add(guna2HtmlLabel4);
             panel_info.Controls.Add(guna2HtmlLabel3);
             panel_info.Controls.Add(button_to_github);
@@ -218,30 +218,31 @@
             guna2HtmlLabel5.TabIndex = 20;
             guna2HtmlLabel5.Text = "luisantoniogarciaroque@gmail.com";
             // 
-            // guna2Button1
+            // button_searchupdates
             // 
-            guna2Button1.Animated = true;
-            guna2Button1.BackColor = Color.Transparent;
-            guna2Button1.BorderColor = Color.Gray;
-            guna2Button1.BorderRadius = 10;
-            guna2Button1.CustomizableEdges = customizableEdges5;
-            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button1.FillColor = Color.White;
-            guna2Button1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            guna2Button1.ForeColor = SystemColors.WindowFrame;
-            guna2Button1.HoverState.FillColor = Color.FromArgb(224, 224, 224);
-            guna2Button1.Image = (Image)resources.GetObject("guna2Button1.Image");
-            guna2Button1.ImageSize = new Size(40, 40);
-            guna2Button1.Location = new Point(284, 121);
-            guna2Button1.Name = "guna2Button1";
-            guna2Button1.PressedColor = Color.Blue;
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2Button1.Size = new Size(221, 47);
-            guna2Button1.TabIndex = 19;
-            guna2Button1.Text = "Search for Updates";
+            button_searchupdates.Animated = true;
+            button_searchupdates.BackColor = Color.Transparent;
+            button_searchupdates.BorderColor = Color.Gray;
+            button_searchupdates.BorderRadius = 10;
+            button_searchupdates.CustomizableEdges = customizableEdges5;
+            button_searchupdates.DisabledState.BorderColor = Color.DarkGray;
+            button_searchupdates.DisabledState.CustomBorderColor = Color.DarkGray;
+            button_searchupdates.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            button_searchupdates.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            button_searchupdates.FillColor = Color.White;
+            button_searchupdates.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            button_searchupdates.ForeColor = SystemColors.WindowFrame;
+            button_searchupdates.HoverState.FillColor = Color.FromArgb(224, 224, 224);
+            button_searchupdates.Image = (Image)resources.GetObject("button_searchupdates.Image");
+            button_searchupdates.ImageSize = new Size(40, 40);
+            button_searchupdates.Location = new Point(284, 121);
+            button_searchupdates.Name = "button_searchupdates";
+            button_searchupdates.PressedColor = Color.Blue;
+            button_searchupdates.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            button_searchupdates.Size = new Size(221, 47);
+            button_searchupdates.TabIndex = 19;
+            button_searchupdates.Text = "Search for Updates";
+            button_searchupdates.Click += button_searchupdates_Click;
             // 
             // guna2HtmlLabel4
             // 
@@ -866,7 +867,7 @@
         private Panel panel_info;
         private Guna.UI2.WinForms.Guna2Separator guna2Separator3;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
-        private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Guna.UI2.WinForms.Guna2Button button_searchupdates;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel5;
     }

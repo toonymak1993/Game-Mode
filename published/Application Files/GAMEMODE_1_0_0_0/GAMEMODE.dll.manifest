@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="GAMEMODE.exe" version="1.0.0.18" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="GAMEMODE.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
     <assemblyIdentity name="Launcher" version="8.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -53,31 +53,31 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="GAMEMODE.deps.json" size="2339">
+  <file name="GAMEMODE.deps.json" size="2805">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>WDci6RDWwad8Kl7IRtJpDDqN15l4SuB3gUsjGS2obyQ=</dsig:DigestValue>
+      <dsig:DigestValue>PjnXbKilAzCyIIfEndNtuBHfhyLR92C8PWp7YQnSlgo=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="GAMEMODE.dll" size="174080">
+  <file name="GAMEMODE.dll" size="176640">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>swEBSj8a8qXMI7r+vDIrePEvs4l2SqF4ceH/EZsug2U=</dsig:DigestValue>
+      <dsig:DigestValue>bN/lK5ILgW5+PAr10B6r7LZnyk8fJXdvn4oZtwc0glk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="GAMEMODE.exe" size="147456">
+  <file name="GAMEMODE.exe" size="147968">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>EUSCkBxRjDNjP1pl3V9f0n0/YVcSICcNA1yw9xGzT/M=</dsig:DigestValue>
+      <dsig:DigestValue>ZCIT74YQThIPYRqt6cv6ILG5INPFbOws7YHC2AtMqyQ=</dsig:DigestValue>
     </hash>
   </file>
   <file name="GAMEMODE.runtimeconfig.json" size="372">

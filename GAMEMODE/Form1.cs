@@ -58,12 +58,7 @@ namespace GAMEMODE
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Ermitteln der aktuellen Version Ihrer Anwendung
-            Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-
-            // Anzeigen der aktuellen Version in einem Label
-            label_version.Text = currentVersion.ToString();
-
+           
             // Autostart prüfen us Appllikation hinnzfüge
             setui();
         }
@@ -173,6 +168,13 @@ namespace GAMEMODE
 
         private void setui()
         {
+
+            // Ermitteln der aktuellen Version Ihrer Anwendung
+            Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+            // Anzeigen der aktuellen Version in einem Label
+            label_version.Text = "v." + currentVersion.ToString();
+
             // Startposition auf "Manual" festlegen, um die Position selbst festzulegen.
             this.StartPosition = FormStartPosition.Manual;
 

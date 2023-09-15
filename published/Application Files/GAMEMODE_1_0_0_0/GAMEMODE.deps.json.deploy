@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v6.0": {
       "GAMEMODE/1.0.0": {
         "dependencies": {
-          "Guna.UI2.WinForms": "2.0.4.5"
+          "Guna.UI2.WinForms": "2.0.4.5",
+          "Microsoft.NET.Build.Containers": "7.0.401"
         },
         "runtime": {
           "GAMEMODE.dll": {}
@@ -25,6 +26,7 @@
           }
         }
       },
+      "Microsoft.NET.Build.Containers/7.0.401": {},
       "System.CodeDom/6.0.0": {},
       "System.Management/6.0.0": {
         "dependencies": {
@@ -59,6 +61,13 @@
       "sha512": "sha512-lR50db4NzBC0QLAr27q9nrpYsIfWKjOgGnROrPi8AxbwLFE3nTup6ZOpVE/vbrr86eLV//8ys9sIW7j0ix2h+Q==",
       "path": "guna.ui2.winforms/2.0.4.5",
       "hashPath": "guna.ui2.winforms.2.0.4.5.nupkg.sha512"
+    },
+    "Microsoft.NET.Build.Containers/7.0.401": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-m4G5rXJsVTrL1EXdrJYtwpkfRimGsPIUYWKRNKpxnS71YlAmi8oiZoHu+4vXoXjeWlSEkotIPeL9YjzP65WtKQ==",
+      "path": "microsoft.net.build.containers/7.0.401",
+      "hashPath": "microsoft.net.build.containers.7.0.401.nupkg.sha512"
     },
     "System.CodeDom/6.0.0": {
       "type": "package",
