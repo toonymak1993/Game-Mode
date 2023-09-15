@@ -27,7 +27,7 @@ namespace GAMEMODE
             // Starten Sie den Timer, wenn die Form geladen wird.
             timer.Start();
             #endregion Timer initial
-            #region Pfad zum APPDATA Ordner ermitteln
+        #region Pfad zum APPDATA Ordner ermitteln
             // Pfad zum AppData-Ordner des aktuellen Benutzers
             string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -38,7 +38,7 @@ namespace GAMEMODE
             // Pfad zur XML-Datei im gamemode-Ordner erstellen
             settingsFilePath = Path.Combine(gamemodeFolder, "settings.xml");
             #endregion Pfad zum APPDATA Ordner ermitteln
-            #region set first Start
+        #region set first Start
             if (File.Exists(settingsFilePath))
             {
 
@@ -53,7 +53,6 @@ namespace GAMEMODE
 
 
             #endregion first start
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
