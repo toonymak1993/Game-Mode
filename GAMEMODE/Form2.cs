@@ -26,6 +26,23 @@ namespace GAMEMODE
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            #region startfenster unten rechts
+            // Startposition auf "Manual" festlegen, um die Position selbst festzulegen.
+            this.StartPosition = FormStartPosition.Manual;
+
+            // Bestimmen der Form Position der unteren rechten Ecke des Bildschirms.
+            int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
+            int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            int formWidth = this.Width;
+            int formHeight = this.Height;
+
+            // Unteren rechten Ecke platzieren.
+            this.DesktopBounds = new System.Drawing.Rectangle(screenWidth - formWidth, screenHeight - formHeight, formWidth, formHeight);
+
+            // Deaktivieren Verschieben der Form.
+            this.TopMost = true;
+            #endregion startfenster unten rechts
+
             #region Pfad zum APPDATA Ordner ermitteln
             // Pfad zum AppData-Ordner des aktuellen Benutzers
             string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -46,6 +63,10 @@ namespace GAMEMODE
 
         #endregion Form
         #region Methoden
+        private string ColorToHexString(Color color)
+        {
+            return "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+        }
         public void SaveSettings(string key, string value)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -104,7 +125,6 @@ namespace GAMEMODE
             string launcherart = LoadSetting("launcherart");
             string time = LoadSetting("time");
             string display = LoadSetting("display");
-
             // Use Variable for set at start
 
             //Launcher
@@ -124,6 +144,30 @@ namespace GAMEMODE
             //Timebar
             trackbar_time.Value = int.Parse(time);
             label_showsecods.Text = time.ToString();
+
+            // Display
+            if (display == "i")
+            {
+                checkbox_internaldisplay.Checked = true;
+            }
+            else
+            {
+                checkbox_externaldisplay.Checked = true;
+            }
+
+            // COLORUI -------------------------------
+
+            //get variable
+            string color_main_textcolor = LoadSetting("color_main_textcolor");
+            string wallpaperlink = LoadSetting("wallpaper_link");
+            string button_hover_color = LoadSetting("button_hover_color");
+            string progressbar_color = LoadSetting("progressbar_color");
+
+            // Set Color in Gui
+            textbox_textcolor.Text = color_main_textcolor;
+            textbox_buttonhover_color.Text = button_hover_color;
+            textbox_progressbar_color.Text = progressbar_color;
+            textbox_custom_wallpaper.Text = wallpaperlink;
         }
 
 
@@ -142,7 +186,9 @@ namespace GAMEMODE
 
         private void guna2Button2_Click(object sender, EventArgs e)
         {
-
+            Panel_settigs_main.Visible = true;
+            panel_info.Visible = false;
+            panel_settings_color.Visible = false;
         }
 
         private void guna2TrackBar1_Scroll(object sender, ScrollEventArgs e)
@@ -178,5 +224,103 @@ namespace GAMEMODE
             checkbox_internaldisplay.Checked = false;
         }
         #endregion aktionen
+        #region buttons unnd aktionen
+
+        //restart Applikation
+        private void button_restart_app_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
+
+        //colopicker Button
+        private void button_settings_color_Click(object sender, EventArgs e)
+        {
+            panel_settings_color.Visible = true;
+            Panel_settigs_main.Visible = false;
+            panel_info.Visible = false;
+
+
+
+        }
+
+        private void settings_info_button_Click(object sender, EventArgs e)
+        {
+            panel_settings_color.Visible = false;
+            Panel_settigs_main.Visible = false;
+            panel_info.Visible = true;
+        }
+        #region set color 
+        private void button_text_color_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Color selectedColor = colorDialog1.Color;
+                string hexColor = ColorToHexString(selectedColor);
+
+                // ...
+
+
+                // Verwenden Sie die ausgewählte Farbe in Ihrer Anwendung
+                SaveSettings("color_main_textcolor", hexColor);
+                textbox_textcolor.Text = hexColor;
+                textbox_textcolor.ForeColor = selectedColor;
+            }
+
+
+        }
+
+
+
+
+        private void button_hoverstate_color_Click(object sender, EventArgs e)
+        {
+
+
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Color selectedColor = colorDialog1.Color;
+                string hexColor = ColorToHexString(selectedColor);
+
+                // ...
+
+
+                // Verwenden Sie die ausgewählte Farbe in Ihrer Anwendung
+                SaveSettings("button_hover_color", hexColor);
+                textbox_buttonhover_color.Text = hexColor;
+                textbox_buttonhover_color.ForeColor = selectedColor;
+            }
+
+        }
+
+        private void button_progressbar_color_Click(object sender, EventArgs e)
+        {
+
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Color selectedColor = colorDialog1.Color;
+                string hexColor = ColorToHexString(selectedColor);
+
+                // Verwenden  der ausgewählte Farbe in der Anwendung
+                SaveSettings("progressbar_color", hexColor);
+                textbox_progressbar_color.Text = hexColor;
+                textbox_progressbar_color.ForeColor = selectedColor;
+            }
+
+        }
+        #endregion set color
+
+
+        private void textbox_custom_wallpaper_TextChanged(object sender, EventArgs e)
+        {
+            // Setzen des Wallpapers in den Settings
+            // Verwenden  der ausgewählte Farbe in der Anwendung
+            SaveSettings("wallpaper_link", textbox_custom_wallpaper.Text);
+        }
+        #endregion Buttons
+
+        private void butto_restart_app_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
     }
 }

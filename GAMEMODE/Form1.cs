@@ -1,20 +1,21 @@
 using static Guna.UI2.WinForms.Helpers.GraphicsHelper;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Diagnostics;
 
 namespace GAMEMODE
 {
-    public partial class Form1 : Form
+    public partial class Main_Form : Form
     {
+
         #region Notwendige Variable
-        private int countdownSeconds = 30;
+        private int countdownSeconds;
         private string settingsFilePath;
-        #endregion otwendige Variable
+        #endregion Notwendige Variable
         #region Form Load
-        public Form1()
+        public Main_Form()
         {
             InitializeComponent();
-            #region Timer initial
             // Initialisieren Sie den Timer.
             timer.Interval = 1000; // Timer wird jede Sekunde ausgelöst
             timer.Tick += Timer_Tick;
@@ -22,7 +23,7 @@ namespace GAMEMODE
             // Starten Sie den Timer, wenn die Form geladen wird.
             timer.Start();
             #endregion Timer initial
-            #region Pfad zum APPDATA Ordner ermitteln
+        #region Pfad zum APPDATA Ordner ermitteln
             // Pfad zum AppData-Ordner des aktuellen Benutzers
             string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -33,12 +34,134 @@ namespace GAMEMODE
             // Pfad zur XML-Datei im gamemode-Ordner erstellen
             settingsFilePath = Path.Combine(gamemodeFolder, "settings.xml");
             #endregion Pfad zum APPDATA Ordner ermitteln
-
-
+        #region set first Start
+            if (File.Exists(settingsFilePath))
+            {
+              
+            }
+            else
+            {
+                SaveSettings("launcherart", "steam");
+                SaveSettings("time", "30");
+                SaveSettings("display", "e");
+                SaveSettings("launcherart", "steam");
+            }
+            
+            
+            #endregion first start
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+            // Autostart prüfen us Appllikation hinnzfüge
+            setui();
+        }
+
+
+
+        #region Methoden
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            label_activated.Visible = true;
+
+            if (countdownSeconds > 0)
+            {
+                // Aktualisieren  Label mit der verbleibenden Zeit.
+                label_activated.Text = countdownSeconds.ToString() + " Seconds";
+
+                // Aktualisieren der ProgressBar.
+                guna2ProgressBardesktop_mode.Value = countdownSeconds;
+
+                countdownSeconds--;
+            }
+            else
+            {
+                // Der Countdown ist abgelaufen. Sie können hier entsprechende Aktionen ausführen.
+                // Zum Stoppen des Timers können Sie timer.Stop() aufrufen.
+
+                timer.Stop();
+                start_gamemode();
+            }
+        }
+
+        public void SaveSettings(string key, string value)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlElement root;
+
+            if (File.Exists(settingsFilePath))
+            {
+                xmlDoc.Load(settingsFilePath);
+                root = xmlDoc.DocumentElement;
+            }
+            else
+            {
+                // Erstelle eine neue XML-Datei
+                xmlDoc.AppendChild(xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null));
+                root = xmlDoc.CreateElement("Settings");
+                xmlDoc.AppendChild(root);
+            }
+
+            // Überprüfe, ob das Element bereits existiert, und aktualisiere es oder füge es hinzu
+            XmlNode settingNode = root.SelectSingleNode(key);
+            if (settingNode != null)
+            {
+                settingNode.InnerText = value;
+            }
+            else
+            {
+                settingNode = xmlDoc.CreateElement(key);
+                settingNode.InnerText = value;
+                root.AppendChild(settingNode);
+            }
+
+            // XML-Datei speichern
+            xmlDoc.Save(settingsFilePath);
+        }
+
+        private string LoadSetting(string key)
+        {
+            if (File.Exists(settingsFilePath))
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(settingsFilePath);
+                XmlNode settingNode = xmlDoc.DocumentElement.SelectSingleNode(key);
+                if (settingNode != null)
+                {
+                    return settingNode.InnerText;
+                }
+            }
+
+            return null; // Einstellung nicht gefunden
+        }
+
+        private void loadbackimage(string link)
+        {
+            // Pfad zur Bilddatei festlegen
+            string bildPfad = link; // Passe den Pfad entsprechend an
+
+          
+
+                // Überprüfe, ob die Bilddatei vorhanden ist
+                if (System.IO.File.Exists(bildPfad))
+                {
+                    // Bild laden und als Hintergrundbild für das Formular festlegen
+                    this.BackgroundImage = Image.FromFile(bildPfad);
+
+                    // Optional: Die Größe des Hintergrundbilds an das Formular anpassen
+                    this.BackgroundImageLayout = ImageLayout.Stretch; // Oder ein anderes Layout je nach Bedarf
+                }
+                else
+                {
+                    // Zeige eine Fehlermeldung, wenn die Bilddatei nicht gefunden wurde
+                    MessageBox.Show("Hintergrundbild nicht gefunden.");
+                }
+           
+        }
+
+
+        private void setui()
         {
             // Startposition auf "Manual" festlegen, um die Position selbst festzulegen.
             this.StartPosition = FormStartPosition.Manual;
@@ -56,34 +179,93 @@ namespace GAMEMODE
             this.FormBorderStyle = FormBorderStyle.None;
             this.TopMost = true;
 
+            //set settings
+            string timeString = LoadSetting("time");
+            int time = int.Parse(timeString);
+            countdownSeconds = time;
+            guna2ProgressBardesktop_mode.Maximum = countdownSeconds;
+
+            //Set Colorpalette
+            // For TEXT
+            string color_main_textcolor = LoadSetting("color_main_textcolor");
+            string hexColor = color_main_textcolor; // Beispiel-Hex-Farbe
+            System.Drawing.Color colortextcolor = System.Drawing.ColorTranslator.FromHtml(hexColor);
+            label_activated.ForeColor = colortextcolor;
+            button_gamingmode.ForeColor = colortextcolor;
+            button_desktopmode.ForeColor = colortextcolor;
+
+            //For Progressbar
+            string progressbar_color = LoadSetting("progressbar_color");
+            string hexColorprogressbar = progressbar_color; // Beispiel-Hex-Farbe
+            System.Drawing.Color colorprogressbar = System.Drawing.ColorTranslator.FromHtml(hexColorprogressbar);
+            guna2ProgressBardesktop_mode.ProgressColor = colorprogressbar;
+            guna2ProgressBardesktop_mode.ProgressColor2 = colorprogressbar;
+
+            //For Hover
+            string button_hover_color = LoadSetting("button_hover_color");
+            string hexColorhover = button_hover_color; // Beispiel-Hex-Farbe
+            System.Drawing.Color colorhover = System.Drawing.ColorTranslator.FromHtml(hexColorhover);
+            button_desktopmode.HoverState.FillColor = colorhover;
+            button_gamingmode.HoverState.FillColor = colorhover;
 
 
-        }
-        #endregion Form Load
-        #region Methoden
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (countdownSeconds > 0)
+
+            //Wallpaper wenn vorhanden
+
+            string wallpaperlink = LoadSetting("wallpaper_link");
+
+            if (System.IO.File.Exists(wallpaperlink))
             {
-                // Aktualisieren  Label mit der verbleibenden Zeit.
-                label_activated.Text = "Start in: " + countdownSeconds.ToString() + " Seconds";
-
-                // Aktualisieren der ProgressBar.
-                guna2ProgressBardesktop_mode.Value = countdownSeconds;
-
-                countdownSeconds--;
+                loadbackimage(wallpaperlink);
             }
             else
             {
-                // Der Countdown ist abgelaufen. Sie können hier entsprechende Aktionen ausführen.
-                // Zum Stoppen des Timers können Sie timer.Stop() aufrufen.
-                System.Diagnostics.Process.Start("displayswitch.exe", "/internal");
-                timer.Stop();
+
             }
         }
 
+        private void start_gamemode()
+        {
+            //Einstellungen laden und  Daten vorbereiten
 
-        // Methode zum Speichern von Einstellungen in einer XML-Datei
+            //Lancher auswahl laden
+            string launcherart = LoadSetting("launcherart");
+            string launcherlink = LoadSetting("launcherstart");
+
+
+            // start with code
+
+            // Display Setting
+            System.Diagnostics.Process.Start("displayswitch.exe", "/external");
+            // Minimize all
+            // Noch keine Option hierfür
+
+            // Warte 3 Sekunden
+            Thread.Sleep(1000);
+
+            //Launcher Start
+            if (launcherart == "steam")
+            {
+                // code für steam Big
+                string steamProtocol = "steam://open/bigpicture";
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = steamProtocol,
+                    UseShellExecute = true
+                });
+            }
+            else
+            {
+                // code für custom Launcher
+            }
+
+            // Schließe die Anwendung
+            System.Windows.Forms.Application.Exit();
+
+
+
+
+        }
 
         #endregion Methoden
         #region Button Events
@@ -91,6 +273,26 @@ namespace GAMEMODE
         {
             new Form2().Show();
 
+        }
+
+
+        private void button_app_close_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+
+        }
+
+
+
+        private void button_desktopmode_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
+
+
+        private void button_gamingmode_Click(object sender, EventArgs e)
+        {
+            start_gamemode();
         }
         #endregion Button Events
     }
