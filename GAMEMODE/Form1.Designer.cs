@@ -52,6 +52,7 @@
             timer = new System.Windows.Forms.Timer(components);
             guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             button_app_close = new Guna.UI2.WinForms.Guna2Button();
+            label_version = new Guna.UI2.WinForms.Guna2HtmlLabel();
             SuspendLayout();
             // 
             // guna2BorderlessForm1
@@ -84,7 +85,7 @@
             button_desktopmode.ShadowDecoration.CustomizableEdges = customizableEdges10;
             button_desktopmode.Size = new Size(228, 70);
             button_desktopmode.TabIndex = 0;
-            button_desktopmode.Text = "DESKTOP-MODE";
+            button_desktopmode.Text = "DESKTOP MODE";
             button_desktopmode.Click += button_desktopmode_Click;
             // 
             // guna2ResizeForm1
@@ -144,7 +145,7 @@
             button_gamingmode.ShadowDecoration.CustomizableEdges = customizableEdges8;
             button_gamingmode.Size = new Size(228, 70);
             button_gamingmode.TabIndex = 3;
-            button_gamingmode.Text = "GAMING-MODE";
+            button_gamingmode.Text = "GAMING MODE";
             button_gamingmode.Click += button_gamingmode_Click;
             // 
             // guna2HtmlToolTip1
@@ -213,6 +214,18 @@
             button_app_close.TabIndex = 6;
             button_app_close.Click += button_app_close_Click;
             // 
+            // label_version
+            // 
+            label_version.BackColor = Color.Transparent;
+            label_version.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label_version.ForeColor = SystemColors.ButtonHighlight;
+            label_version.Location = new Point(58, 16);
+            label_version.Name = "label_version";
+            label_version.Size = new Size(50, 19);
+            label_version.TabIndex = 7;
+            label_version.Text = "Version: ";
+            label_version.UseGdiPlusTextRendering = true;
+            // 
             // Main_Form
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -220,6 +233,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(540, 240);
+            Controls.Add(label_version);
             Controls.Add(label_activated);
             Controls.Add(guna2ProgressBardesktop_mode);
             Controls.Add(button_app_close);
@@ -248,5 +262,6 @@
         private System.Windows.Forms.Timer timer;
         private Guna.UI2.WinForms.Guna2Button guna2Button2;
         private Guna.UI2.WinForms.Guna2Button button_app_close;
+        private Guna.UI2.WinForms.Guna2HtmlLabel label_version;
     }
 }

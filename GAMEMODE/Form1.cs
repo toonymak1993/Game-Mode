@@ -2,11 +2,15 @@ using static Guna.UI2.WinForms.Helpers.GraphicsHelper;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Diagnostics;
+using System.Net;
+using System.Reflection;
 
 namespace GAMEMODE
 {
     public partial class Main_Form : Form
     {
+
+
 
         #region Notwendige Variable
         private int countdownSeconds;
@@ -23,7 +27,7 @@ namespace GAMEMODE
             // Starten Sie den Timer, wenn die Form geladen wird.
             timer.Start();
             #endregion Timer initial
-        #region Pfad zum APPDATA Ordner ermitteln
+            #region Pfad zum APPDATA Ordner ermitteln
             // Pfad zum AppData-Ordner des aktuellen Benutzers
             string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -34,10 +38,10 @@ namespace GAMEMODE
             // Pfad zur XML-Datei im gamemode-Ordner erstellen
             settingsFilePath = Path.Combine(gamemodeFolder, "settings.xml");
             #endregion Pfad zum APPDATA Ordner ermitteln
-        #region set first Start
+            #region set first Start
             if (File.Exists(settingsFilePath))
             {
-              
+
             }
             else
             {
@@ -46,14 +50,20 @@ namespace GAMEMODE
                 SaveSettings("display", "e");
                 SaveSettings("launcherart", "steam");
             }
-            
-            
+
+
             #endregion first start
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Ermitteln der aktuellen Version Ihrer Anwendung
+            Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+            // Anzeigen der aktuellen Version in einem Label
+            label_version.Text = currentVersion.ToString();
+
             // Autostart prüfen us Appllikation hinnzfüge
             setui();
         }
@@ -141,23 +151,23 @@ namespace GAMEMODE
             // Pfad zur Bilddatei festlegen
             string bildPfad = link; // Passe den Pfad entsprechend an
 
-          
 
-                // Überprüfe, ob die Bilddatei vorhanden ist
-                if (System.IO.File.Exists(bildPfad))
-                {
-                    // Bild laden und als Hintergrundbild für das Formular festlegen
-                    this.BackgroundImage = Image.FromFile(bildPfad);
 
-                    // Optional: Die Größe des Hintergrundbilds an das Formular anpassen
-                    this.BackgroundImageLayout = ImageLayout.Stretch; // Oder ein anderes Layout je nach Bedarf
-                }
-                else
-                {
-                    // Zeige eine Fehlermeldung, wenn die Bilddatei nicht gefunden wurde
-                    MessageBox.Show("Hintergrundbild nicht gefunden.");
-                }
-           
+            // Überprüfe, ob die Bilddatei vorhanden ist
+            if (System.IO.File.Exists(bildPfad))
+            {
+                // Bild laden und als Hintergrundbild für das Formular festlegen
+                this.BackgroundImage = Image.FromFile(bildPfad);
+
+                // Optional: Die Größe des Hintergrundbilds an das Formular anpassen
+                this.BackgroundImageLayout = ImageLayout.Stretch; // Oder ein anderes Layout je nach Bedarf
+            }
+            else
+            {
+                // Zeige eine Fehlermeldung, wenn die Bilddatei nicht gefunden wurde
+                MessageBox.Show("Hintergrundbild nicht gefunden.");
+            }
+
         }
 
 
