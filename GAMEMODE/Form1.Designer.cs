@@ -85,7 +85,7 @@
             button_desktopmode.ShadowDecoration.CustomizableEdges = customizableEdges10;
             button_desktopmode.Size = new Size(228, 70);
             button_desktopmode.TabIndex = 0;
-            button_desktopmode.Text = "DESKTOP MODE";
+            button_desktopmode.Text = "DESKTOP-MODE";
             button_desktopmode.Click += button_desktopmode_Click;
             // 
             // guna2ResizeForm1
@@ -145,7 +145,7 @@
             button_gamingmode.ShadowDecoration.CustomizableEdges = customizableEdges8;
             button_gamingmode.Size = new Size(228, 70);
             button_gamingmode.TabIndex = 3;
-            button_gamingmode.Text = "GAMING MODE";
+            button_gamingmode.Text = "GAMING-MODE";
             button_gamingmode.Click += button_gamingmode_Click;
             // 
             // guna2HtmlToolTip1
