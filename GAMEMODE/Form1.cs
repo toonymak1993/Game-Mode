@@ -4,6 +4,11 @@ using System.Xml;
 using System.Diagnostics;
 using System.Net;
 using System.Reflection;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using TaskScheduler;
+using IWshRuntimeLibrary;
+using Microsoft.Win32;
+using System.Xml.Linq;
 
 namespace GAMEMODE
 {
@@ -15,6 +20,7 @@ namespace GAMEMODE
         #region Notwendige Variable
         private int countdownSeconds;
         private string settingsFilePath;
+        private volatile int pausebutton = 0;
         #endregion Notwendige Variable
         #region Form Load
         public Main_Form()
@@ -22,7 +28,7 @@ namespace GAMEMODE
             InitializeComponent();
             // Initialisieren Sie den Timer.
             timer.Interval = 1000; // Timer wird jede Sekunde ausgelöst
-            timer.Tick += Timer_Tick;
+            timer.Tick += Timer_TickAsync;
 
             // Starten Sie den Timer, wenn die Form geladen wird.
             timer.Start();
@@ -39,7 +45,7 @@ namespace GAMEMODE
             settingsFilePath = Path.Combine(gamemodeFolder, "settings.xml");
             #endregion Pfad zum APPDATA Ordner ermitteln
             #region set first Start
-            if (File.Exists(settingsFilePath))
+            if (System.IO.File.Exists(settingsFilePath))
             {
 
             }
@@ -53,24 +59,98 @@ namespace GAMEMODE
 
 
             #endregion first start
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            // Prüfen ob die App auf Autostart läuft
+            autostart();
             // Autostart prüfen us Appllikation hinnzfüge
             setui();
+
         }
 
 
 
         #region Methoden
-        private void Timer_Tick(object sender, EventArgs e)
+
+        private async void autostart()
+        {
+            string firstautostart = LoadSetting("firstautostart");
+            if (firstautostart == "activated")
+            {
+
+            }
+            else
+            {
+                try
+                {
+                    string appName = "GAMEMODE"; // Der Name der Anwendung
+
+                    // Pfad zur ausführbaren Datei der aktuellen Anwendung (diese EXE)
+                    string appPath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+
+                    // Öffne den Registry-Schlüssel für den aktuellen Benutzer-Autostart
+                    RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+                    if (key != null)
+                    {
+                        // Überprüfe, ob die Anwendung bereits im Autostart vorhanden ist
+                        if (key.GetValue(appName) == null)
+                        {
+                            // Füge deine Anwendung zum Autostart hinzu
+                            key.SetValue(appName, appPath);
+                            key.Close();
+                            // Konfiguriere die Benachrichtigungseinstellungen
+                            SaveSettings("autostart", "activated");
+                            SaveSettings("firstautostart", "activated");
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        private async void Timer_TickAsync(object sender, EventArgs e)
         {
             label_activated.Visible = true;
 
             if (countdownSeconds > 0)
             {
+                // Hier können Sie den Code ausführen, der während des Timerticks ausgeführt werden soll
+                // Überprüfen Sie die Bedingung, ob pausiert werden soll
+                // Überprüfen Sie die Bedingung, ob pausiert werden soll
+                while (pausebutton == 1)
+                {
+                    if (pausebutton == 1)
+                    {
+                        // Warten Sie hier, bis die Bedingung aufgehoben ist
+                        await Task.Delay(100); // Warten Sie 100 Millisekunden und überprüfen Sie erneut
+                        timer.Enabled = false;
+                    }
+                    else
+                    {
+
+                    }
+                }
+                // Timer wieder aktivieren
+                if (timer.Enabled == false)
+                {
+                    timer.Enabled = true;
+                }
+
                 // Aktualisieren  Label mit der verbleibenden Zeit.
                 label_activated.Text = countdownSeconds.ToString() + " Seconds";
 
@@ -78,6 +158,7 @@ namespace GAMEMODE
                 guna2ProgressBardesktop_mode.Value = countdownSeconds;
 
                 countdownSeconds--;
+
             }
             else
             {
@@ -94,7 +175,7 @@ namespace GAMEMODE
             XmlDocument xmlDoc = new XmlDocument();
             XmlElement root;
 
-            if (File.Exists(settingsFilePath))
+            if (System.IO.File.Exists(settingsFilePath))
             {
                 xmlDoc.Load(settingsFilePath);
                 root = xmlDoc.DocumentElement;
@@ -126,7 +207,7 @@ namespace GAMEMODE
 
         private string LoadSetting(string key)
         {
-            if (File.Exists(settingsFilePath))
+            if (System.IO.File.Exists(settingsFilePath))
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(settingsFilePath);
@@ -208,9 +289,17 @@ namespace GAMEMODE
             //For Progressbar
             string progressbar_color = LoadSetting("progressbar_color");
             string hexColorprogressbar = progressbar_color; // Beispiel-Hex-Farbe
-            System.Drawing.Color colorprogressbar = System.Drawing.ColorTranslator.FromHtml(hexColorprogressbar);
-            guna2ProgressBardesktop_mode.ProgressColor = colorprogressbar;
-            guna2ProgressBardesktop_mode.ProgressColor2 = colorprogressbar;
+
+            if (progressbar_color == null)
+            {
+
+            }
+            else
+            {
+                System.Drawing.Color colorprogressbar = System.Drawing.ColorTranslator.FromHtml(hexColorprogressbar);
+                guna2ProgressBardesktop_mode.ProgressColor = colorprogressbar;
+                guna2ProgressBardesktop_mode.ProgressColor2 = colorprogressbar;
+            }
 
             //For Hover
             string button_hover_color = LoadSetting("button_hover_color");
@@ -304,6 +393,24 @@ namespace GAMEMODE
         private void button_gamingmode_Click(object sender, EventArgs e)
         {
             start_gamemode();
+        }
+
+
+        private void button_pause_Click(object sender, EventArgs e)
+        {
+            if (pausebutton == 0)
+            {
+                button_pause.BackgroundImage = imageList1.Images[0];
+                //Aktiviert
+                pausebutton = 1;
+            }
+            else if (pausebutton == 1)
+            {
+
+                button_pause.BackgroundImage = imageList1.Images[1];
+                //Pausiert
+                pausebutton = 0;
+            }
         }
         #endregion Button Events
     }

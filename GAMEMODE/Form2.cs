@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace GAMEMODE
 {
@@ -128,6 +130,7 @@ namespace GAMEMODE
             string launcherart = LoadSetting("launcherart");
             string time = LoadSetting("time");
             string display = LoadSetting("display");
+            string autostart = LoadSetting("autostart");
             // Use Variable for set at start
 
             //Launcher
@@ -171,6 +174,17 @@ namespace GAMEMODE
             textbox_buttonhover_color.Text = button_hover_color;
             textbox_progressbar_color.Text = progressbar_color;
             textbox_custom_wallpaper.Text = wallpaperlink;
+
+
+            // Autostart 
+            if (autostart == "deactivated")
+            {
+                checkbox_autosstart.Checked = false;
+            }
+            else
+            {
+                checkbox_autosstart.Checked = true;
+            }
         }
 
 
@@ -319,7 +333,7 @@ namespace GAMEMODE
             // Verwenden  der ausgewählte Farbe in der Anwendung
             SaveSettings("wallpaper_link", textbox_custom_wallpaper.Text);
         }
-        
+
 
         private void butto_restart_app_Click(object sender, EventArgs e)
         {
@@ -328,8 +342,105 @@ namespace GAMEMODE
 
         private void button_searchupdates_Click(object sender, EventArgs e)
         {
-            
-            
+
+
+        }
+
+
+
+        private void button_to_github_Click(object sender, EventArgs e)
+        {
+
+            // Öffnet die Webseite in einem Standard-Webbrowser
+            string url = "https://github.com/toonymak1993/Game_Mode";
+
+            // Versuchen, den Standard-Webbrowser des Benutzers für die angegebene URL zu öffnen
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
+
+        private void checkbox_autosstart_Click(object sender, EventArgs e)
+        {
+            string autostart = LoadSetting("autostart");
+            if (autostart == "activated")
+            {
+                try
+                {
+                    string appName = "GAMEMODE"; // Der Name deiner Anwendung
+
+                    // Öffne den Registry-Schlüssel für den aktuellen Benutzer-Autostart
+                    RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+                    if (key != null)
+                    {
+                        // Entferne den Eintrag aus dem Autostart
+                        key.DeleteValue(appName, false);
+                        key.Close();
+
+                        SaveSettings("autostart", "deactivated");
+                        checkbox_autosstart.Checked = false;
+                    }
+                    else
+                    {
+                        // Registry Schlüssel nicht gefunden
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //Fehler beim Entfernen
+                }
+            }
+            else
+            {
+                try
+                {
+                    string appName = "GAMEMODE"; // Der Name der Anwendung
+
+                    // Pfad zur ausführbaren Datei der aktuellen Anwendung (diese EXE)
+                    string appPath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+
+                    // Öffne den Registry-Schlüssel für den aktuellen Benutzer-Autostart
+                    RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+                    if (key != null)
+                    {
+                        // Überprüfe, ob die Anwendung bereits im Autostart vorhanden ist
+                        if (key.GetValue(appName) == null)
+                        {
+                            // Füge deine Anwendung zum Autostart hinzu
+                            key.SetValue(appName, appPath);
+                            key.Close();
+                            // Konfiguriere die Benachrichtigungseinstellungen
+                            SaveSettings("autostart", "activated");
+                            checkbox_autosstart.Checked = true;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
         }
 
         #endregion Buttons
