@@ -1,11 +1,28 @@
 # GAME_MODE
 
-This project is intended to bring a computer as close as possible to a console. 
-I see the main advantages of consoles in the fact that you switch them on and wait until the picture appears on the TV. It also has a great interface. Steam has already given us something good with the Big Picture, but unfortunately the PC with Windows is somewhat limited in bringing everything together. Game_Mode will do that in the future.I have built in a time limit which, when it has expired, puts the display on the first or second monitor, then starts Big Picture, before minimising all windows. With this, you can start your PC, for example via WOL or HOMEASSISTANT, and wait until the PC adjusts itself.
+In simple terms, the "Game Mode" is a Software where your computer or monitor automatically adjusts when a controller is detected. 
+This means that the displayed screen switches to the desired mode, and, if desired, it can even turn on your TV using Wake-on-LAN (WOL) and change the audio settings. 
+Additionally, it launches your preferred application launcher in fullscreen mode. An example of this would be Steam Big Picture or Playnite, which are special user interfaces for gaming.
 
-![Beispielbild](https://github.com/toonymak1993/Game_Mode/blob/master/custom_wallpaper.png)
 
-A wide range of settings is possible, such as setting the seconds, which monitor it should switch to, etc. Colours, backgrounds and text colours can also be set. 
+# UI
+</p>
+<div style="display: flex; justify-content: space-between;">
+  <img src="https://github.com/toonymak1993/Game_Mode/blob/master/ui_first.png" alt="Bild 1" width="40%" />
+  <img src="https://github.com/toonymak1993/Game-Mode/blob/master/settings_hassio.png" alt="Bild 2" width="30%" />
+  <img src="https://github.com/toonymak1993/Game-Mode/blob/master/settings_main_ui.png" alt="Bild 3" width="30%" />
+</div>
+
+
+# Features
+- Switch to the desired monitor
+- Auto Controller detection - Switch back to the default setting with the controller
+ ![settings](https://github.com/toonymak1993/Game-Mode/blob/master/ui_internal_settings.png)
+
+- Initiating a script at the beginning and end of a Gamemode using Home Assistant.
+- TV wake-up via WOL
+- Choose audio, video, launcher yourself
+- Many design settings so that the software adapts to you
 
 ## Contents
 
@@ -24,8 +41,38 @@ You can download Game Mode from Github via this link [Click here](https://github
 and install it. 
 
 ## Usage
-![settings](https://github.com/toonymak1993/Game_Mode/blob/master/settings.png)
+#Settings
+![settings](https://github.com/toonymak1993/Game_Mode/blob/master/settings_gamemode.png)
+- 1: 
+Set Time for the Script
+Here, you can use the slider to choose how much time you want to elapse after 
+the controller is detected before the Game Mode is activated.
 
+- 2: 
+Here you have the option to choose between the internal or external monitor.
+This means that as soon as game mode starts, your desired monitor is set up.
+Here too, please set the monitor beforehand; the settings saved in Windows will be selected
+
+- 3: WOL
+Enter the game mode with which TV you want it to activate for you via WOL.
+He treats this process directly as one of the first and activates it.
+Of course, your TV must also offer this option.
+
+- 4: Set Launcher
+Here you have the option to either use the Steam Bigpicture mode, which I personally use because it has an integrated shop or
+As an example, the software Playnite in the picture here. Important to understand gamemode does not set the software.
+With Playnite, for example, you have to set the Planite setting so that it starts in full screen mode. 
+
+- 5: Set Audio
+Here you can look at all your detected audio devices and choose the one you want, it also switches over briefly to test it
+you can confirm that you want to use it using the checkbox below.
+The next time Gamemode Mode starts, this audio will be changed when changing.
+
+- 6: Set Autostart
+Autostart is checked during installation because it is an essential function of game mode.
+Here you can also deactivate it manually if desired, which is not recommended.
+
+  
 The tool works like a script, as soon as the seconds that you can set with the slider at the top of Settingns have elapsed, the tool then switches to the set screen (Internal/External), proceeds in the same way as (Windows+P) and minimises all windows and then starts Steam in Big Picture mode. (Custom launchers will be supported later) Every single point can be set in the settings.
 ## Display Preset
 It is important that you have already set these settings beforehand so that Windows knows which setting the screen has (resolution/HDR/HZ). These settings are saved by Windows in the registry and are taken into account when you change.
@@ -39,6 +86,7 @@ Under Settings, you can currently adjust the colours as follows:
 
 Please restart the App to make the changes effective.
 
+#Feature
 
 ## Example_pictures
 </p>
@@ -65,8 +113,5 @@ These look like this:
 - Further design options such as button sizes and position and backround colour
 - Translate the app into various languages.
 ##  FUNCTION
-- Integration with Homeassistat to control entities or scenes
-- Automatic recognition of which screen I am on in order to return to the monitor atomatically
-- Possible controller support
 
 These are all somewhat complicated goals, but if you would like to join us and support us, I would appreciate any assistance you can offer.
